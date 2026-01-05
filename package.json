@@ -1,0 +1,7 @@
+{
+  "name": "com.arkademy.noise",
+  "displayName": "Noise Provider",
+  "version": "1.0.0",
+  "keywords": ["Noise"],
+  "description": "Generic Noises"
+}
