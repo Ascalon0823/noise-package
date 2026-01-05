@@ -63,7 +63,7 @@ namespace Noise
             return newData;
         }
 
-        private int CountNeighbors(int x, int y)
+        private int CountNeighbors(int x, int y, int[,] data)
         {
             var count = 0;
             for (var i = -1; i <= 1; i++)

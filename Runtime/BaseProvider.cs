@@ -4,9 +4,11 @@ namespace Noise
 {
     public abstract class BaseProvider : ScriptableObject
     {
-        public int seed;
+        
        
-        [Header("Preview")] [SerializeField] protected bool preview;
+        [Header("Preview")]
+        public int seed;
+        [SerializeField] protected bool preview;
         [SerializeField] protected int previewSize;
         [SerializeField] protected Gradient colorGradient;
         [SerializeField] public Texture2D previewTexture;
