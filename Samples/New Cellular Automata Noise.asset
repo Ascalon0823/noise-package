@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e473efcdb664a868321bac609490d63, type: 3}
   m_Name: New Cellular Automata Noise
   m_EditorClassIdentifier: noise-package::Noise.CellularAutomataProvider
-  seed: 65
+  seed: 23
   preview: 1
   previewSize: 32
   colorGradient:
@@ -46,8 +46,7 @@ MonoBehaviour:
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   previewTexture: {fileID: 0}
-  iterations: 4
-  cutoff: 0.633
-  zeroLimit: 4
-  oneLimit: 5
-  size: 32
+  iterations: 5
+  cutoff: 0.52
+  zeroLimit: 5
+  oneLimit: 6

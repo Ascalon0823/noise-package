@@ -10,41 +10,18 @@ namespace Noise
         [Range(0, 8)] public int zeroLimit;
 
         [Range(0, 8)] public int oneLimit;
-
-        public int size;
-        private int[,] data;
-
-        public override void Initialize(int newSeed)
+        public float[,] Iterate(float[,] old)
         {
-            seed = newSeed;
-            Random.InitState(seed);
-            data = new int[size, size];
-            for (var i = 0; i <= iterations; i++)
+            var sizeX = old.GetLength(0);
+            var sizeY = old.GetLength(1);
+            var newData = new float[sizeX, sizeY];
+            for (var i = 0; i < sizeX; i++)
+            for (var j = 0; j < sizeY; j++)
             {
-                if (i == 0)
-                {
-                    for (var x = 0; x < size; x++)
-                    for (var y = 0; y < size; y++)
-                    {
-                        var value = Random.Range(0f, 1f);
-                        data[x, y] = value > cutoff ? 1 : 0;
-                    }
-                    continue;
-                }
-                data = Iterate(data);
-            }
-        }
-
-        public int[,] Iterate(int[,] old)
-        {
-            var newData = new int[size, size];
-            for (var i = 0; i < size; i++)
-            for (var j = 0; j < size; j++)
-            {
-                var count = CountNeighbors(i, j);
+                var count = CountNeighbors(i, j, old);
                 var original = old[i, j];
                 newData[i, j] = original;
-                if (original == 1)
+                if (Mathf.Approximately(original, 1f))
                 {
                     if (count < zeroLimit)
                     {
@@ -63,31 +40,54 @@ namespace Noise
             return newData;
         }
 
-        private int CountNeighbors(int x, int y, int[,] data)
+        private int CountNeighbors(int x, int y, float[,] data)
         {
             var count = 0;
+            var sizeX = data.GetLength(0);
+            var sizeY = data.GetLength(1);
             for (var i = -1; i <= 1; i++)
             for (var j = -1; j <= 1; j++)
             {
                 var x1 = x + i;
                 var y1 = y + j;
                 if (i == 0 && y == 0) continue;
-                if (x1 < 0 || x1 >= size || y1 < 0 || y1 >= size)
+                if (x1 < 0 || x1 >= sizeX || y1 < 0 || y1 >= sizeY)
                 {
                     count++;
                     continue;
                 }
 
-                count += data[x1, y1];
+                count += data[x1, y1]!=0f?1:0;
             }
 
             return count;
         }
-
-        public override float GetValue(Vector3 pos)
+        public override float[,] GetData(int sizeX, int sizeY, int newSeed, float?[,] baseData = null)
         {
-            if (data == null || pos.x >= size || pos.y >= size) return 0;
-            return data[Mathf.FloorToInt(pos.x * size), Mathf.FloorToInt(pos.y * size)];
+            seed = newSeed;
+            Random.InitState(seed);
+            var data = new float[sizeX, sizeY];
+            var baseValid = baseData!=null && baseData.GetLength(0) == sizeX && baseData.GetLength(1) == sizeY;
+            for (var i = 0; i <= iterations; i++)
+            {
+                if (i == 0)
+                {
+                    for (var x = 0; x < sizeX; x++)
+                    for (var y = 0; y < sizeY; y++)
+                    {
+                        var value = Random.Range(0f, 1f);
+                        data[x, y] = value > cutoff ? 1 : 0;
+                        if (baseValid && baseData[x, y].HasValue)
+                        {
+                            data[x, y] = baseData[x, y].Value;
+                        }
+                    }
+                    continue;
+                }
+                data = Iterate(data);
+            }
+
+            return data;
         }
     }
 }

@@ -11,14 +11,22 @@ namespace Noise
         [Range(1f, 10f)] public float lacunarity;
         [SerializeField] private Vector2 offset;
 
-        public override void Initialize(int newSeed)
+        public override float[,] GetData(int x, int y, int newSeed, float?[,] baseData = null)
         {
-            seed = newSeed;
             Random.InitState(seed);
             offset = Random.insideUnitCircle * 1000f;
+            var data = new float[x, y];
+            for (var i = 0; i < x; i++)
+            for (var j = 0; j < y; j++)
+            {
+                data[i, j] = GetValue(new Vector3(i * 1f / x, j * 1f / y));
+            }
+            return data;
         }
-        public override float GetValue(Vector3 pos)
+
+        private float GetValue(Vector3 pos)
         {
+            
             var x = pos.x;
             var y = pos.y;
             var value = 0f;

@@ -4,21 +4,17 @@ namespace Noise
 {
     public abstract class BaseProvider : ScriptableObject
     {
-        
-       
         [Header("Preview")]
         public int seed;
         [SerializeField] protected bool preview;
         [SerializeField] protected int previewSize;
         [SerializeField] protected Gradient colorGradient;
         [SerializeField] public Texture2D previewTexture;
-        public abstract void Initialize(int newSeed);
-        public abstract float GetValue(Vector3 pos);
         
+        public abstract float[,] GetData(int sizeX, int sizeY, int newSeed, float?[,] baseData = null);
         protected virtual void OnValidate()
         {
             if (!preview) return;
-            Initialize(seed);
             previewSize = Mathf.Max(previewSize, 1);
             if (!previewTexture)
             {
@@ -28,11 +24,11 @@ namespace Noise
             previewTexture.Reinitialize(previewSize, previewSize);
             var min = float.MaxValue;
             var max = float.MinValue;
-            var data = new float[previewSize, previewSize];
+            var data = GetData(previewSize, previewSize, seed);
             for (var i = 0; i < previewSize; i++)
             for (var j = 0; j < previewSize; j++)
             {
-                var v = GetValue(new Vector3(i*1f/previewSize, j*1f/previewSize));
+                var v = data[i, j];
                 if (v > max) max = v;
                 if (v < min) min = v;
                 data[i, j] = v;

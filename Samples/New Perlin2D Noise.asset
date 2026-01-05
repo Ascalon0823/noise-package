@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1264e5cc6c4459b44445eb30090e0f, type: 3}
   m_Name: New Perlin2D Noise
   m_EditorClassIdentifier: Assembly-CSharp::Noise.Perlin2DProvider
-  seed: 0
+  seed: 40
   preview: 1
   previewSize: 128
   colorGradient:
@@ -50,4 +50,4 @@ MonoBehaviour:
   frequency: 0.15
   persistence: 0.35
   lacunarity: 2.5
-  offset: {x: -556.8735, y: 325.28372}
+  offset: {x: 426.86328, y: -832.5156}
