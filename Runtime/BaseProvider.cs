@@ -16,6 +16,7 @@ namespace Noise
         protected virtual void OnValidate()
         {
             if (!preview) return;
+            Initialize(seed);
             previewSize = Mathf.Max(previewSize, 1);
             if (!previewTexture)
             {

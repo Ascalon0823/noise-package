@@ -17,14 +17,6 @@ namespace Noise
             Random.InitState(seed);
             offset = Random.insideUnitCircle * 1000f;
         }
-
-        protected override void OnValidate()
-        {
-            Initialize(seed);
-            base.OnValidate();
-        }
-
-
         public override float GetValue(Vector3 pos)
         {
             var x = pos.x;
