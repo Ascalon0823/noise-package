@@ -10,8 +10,9 @@ namespace Noise
         [SerializeField] protected int previewSize;
         [SerializeField] protected Gradient colorGradient;
         [SerializeField] public Texture2D previewTexture;
+        [SerializeField] public Vector2 previewOffset;
         
-        public abstract float[,] GetData(int sizeX, int sizeY, int newSeed, float?[,] baseData = null);
+        public abstract float[,] GetData(float fromX, float fromY,int sizeX, int sizeY, int newSeed, float?[,] baseData = null);
         protected virtual void OnValidate()
         {
             if (!preview) return;
@@ -24,7 +25,7 @@ namespace Noise
             previewTexture.Reinitialize(previewSize, previewSize);
             var min = float.MaxValue;
             var max = float.MinValue;
-            var data = GetData(previewSize, previewSize, seed);
+            var data = GetData(previewOffset.x,previewOffset.y,previewSize, previewSize, seed);
             for (var i = 0; i < previewSize; i++)
             for (var j = 0; j < previewSize; j++)
             {

@@ -62,7 +62,7 @@ namespace Noise
 
             return count;
         }
-        public override float[,] GetData(int sizeX, int sizeY, int newSeed, float?[,] baseData = null)
+        public override float[,] GetData(float fromX, float fromY, int sizeX, int sizeY, int newSeed, float?[,] baseData = null)
         {
             seed = newSeed;
             Random.InitState(seed);
